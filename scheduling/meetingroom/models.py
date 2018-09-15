@@ -3,7 +3,7 @@ from scheduling import db
 
 class MeetingRoom(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
+    name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(255))
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 

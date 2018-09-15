@@ -15,3 +15,4 @@ from scheduling.meetingroom.api import MeetingRoomApi, MeetingRoomApiList
 
 api.add_resource(MeetingRoomApiList, '/meetingroom')
 api.add_resource(MeetingRoomApi, '/meetingroom/<int:id>')
+
