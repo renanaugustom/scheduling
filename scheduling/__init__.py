@@ -1,9 +1,17 @@
 from flask import Flask
 from flask_restful import Api
-
-from scheduling.resources.meetingroom import MeetingRoom
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scheduling.db'
+app.config['ERROR_404_HELP'] = False
 api = Api(app)
 
-api.add_resource(MeetingRoom, '/meetingroom')
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+from scheduling.meetingroom.api import MeetingRoomApi, MeetingRoomApiList
+
+api.add_resource(MeetingRoomApiList, '/meetingroom')
+api.add_resource(MeetingRoomApi, '/meetingroom/<int:id>')

@@ -1,0 +1,1 @@
+from scheduling.meetingroom import models
