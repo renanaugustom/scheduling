@@ -23,6 +23,7 @@ pluggy==0.7.1
 py==1.6.0
 pycodestyle==2.4.0
 pytest==3.8.0
+pytest-cov==2.6.0
 python-dateutil==2.7.3
 python-editor==1.0.3
 pytz==2018.5
