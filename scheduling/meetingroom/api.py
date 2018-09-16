@@ -2,9 +2,9 @@
 from flask_restful import Resource, reqparse, marshal_with, fields
 from scheduling.meetingroom.service import MeetingRoomService
 
-post_parser = reqparse.RequestParser()
-post_parser.add_argument('name', required=True, help='Nome da sala de reunião inválido')
-post_parser.add_argument('description')
+post_put_parser = reqparse.RequestParser()
+post_put_parser.add_argument('name', required=True, help='Nome da sala de reunião inválido')
+post_put_parser.add_argument('description')
 
 meeting_room_fields = {
     "name": fields.String,
@@ -13,14 +13,18 @@ meeting_room_fields = {
 
 class MeetingRoomApi(Resource):
 
+    @marshal_with(meeting_room_fields)
     def get(self, id):
         return MeetingRoomService().get_by_id(id)
 
     def put(self, id):
-        return {'message': 'put'}
+        meeting_room = post_put_parser.parse_args()
+        MeetingRoomService().edit(id, meeting_room)
+        return 'Sala de reunião alterada com sucessso'
 
     def delete(self, id):
-        return {'message': 'delete'}
+        MeetingRoomService().delete(id)
+        return 'Sala de reunião excluída com sucesso'
 
 class MeetingRoomApiList(Resource):
     @marshal_with(meeting_room_fields)
@@ -28,6 +32,6 @@ class MeetingRoomApiList(Resource):
         return MeetingRoomService().get_all()
 
     def post(self):
-        meeting_room = post_parser.parse_args()
+        meeting_room = post_put_parser.parse_args()
         MeetingRoomService().create(meeting_room.name, meeting_room.description)
         return 'Sala de reunião criada com sucesso'

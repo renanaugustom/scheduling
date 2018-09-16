@@ -12,7 +12,7 @@ class MeetingRoomService():
         if not meeting_room:
             raise NotFound('Sala de reunião não encontrada.')
         
-        return meetingRoom
+        return meeting_room
 
     def get_all(self):
         meeting_rooms = MeetingRoomRepository().get_all()
@@ -24,10 +24,23 @@ class MeetingRoomService():
         db.session.add(meeting_room)
         db.session.commit()
 
-    def validate(self, meeting_room):
+    def edit(self, id, meeting_room):
         if meeting_room is None:
-            raise BadRequest('Dados da sala de reunião não encontrados.')
+            raise BadRequest("Dados da sala de reunião inválidos")
 
+        edited_meeting_room = self.get_by_id(id)
+        edited_meeting_room.name = meeting_room.name
+        edited_meeting_room.description = meeting_room.description
+        
+        self.validate(edited_meeting_room)
+        db.session.commit()
+
+    def delete(self, id):
+        meeting_room = self.get_by_id(id)
+        db.session.delete(meeting_room)
+        db.session.commit()
+    
+    def validate(self, meeting_room):
         if not meeting_room.name or len(meeting_room.name) > 100:
             raise BadRequest('Nome da sala de reunião inválido. Não deve ser vazio, e deve conter no máximo 80 caracteres.')
 
