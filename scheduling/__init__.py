@@ -11,8 +11,11 @@ api = Api(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from scheduling.meetingroom.api import MeetingRoomApi, MeetingRoomApiList
+from scheduling.meetingroom.api import MeetingRoomItemApi, MeetingRoomListApi
+from scheduling.user.api import UserItemApi, UserListApi
 
-api.add_resource(MeetingRoomApiList, '/meetingroom')
-api.add_resource(MeetingRoomApi, '/meetingroom/<int:id>')
+api.add_resource(MeetingRoomListApi, '/meetingroom')
+api.add_resource(MeetingRoomItemApi, '/meetingroom/<int:id>')
+api.add_resource(UserListApi, '/user')
+api.add_resource(UserItemApi, '/user/<int:id>')
 

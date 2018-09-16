@@ -11,7 +11,7 @@ meeting_room_fields = {
     "description": fields.String
 }
 
-class MeetingRoomApi(Resource):
+class MeetingRoomItemApi(Resource):
 
     @marshal_with(meeting_room_fields)
     def get(self, id):
@@ -26,7 +26,7 @@ class MeetingRoomApi(Resource):
         MeetingRoomService().delete(id)
         return 'Sala de reunião excluída com sucesso'
 
-class MeetingRoomApiList(Resource):
+class MeetingRoomListApi(Resource):
     @marshal_with(meeting_room_fields)
     def get(self):
         return MeetingRoomService().get_all()
