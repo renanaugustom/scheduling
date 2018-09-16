@@ -4,7 +4,7 @@ myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
 import pytest
-from scheduling.meetingroom.models import MeetingRoom
+from schedulingsystem.meetingroom.models import MeetingRoom
 
 def test_get_success(test_client, init_database):
     response = test_client.get('/meetingroom/1')

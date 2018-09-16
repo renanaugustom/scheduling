@@ -1,4 +1,4 @@
-from scheduling.user.models import User
+from schedulingsystem.user.models import User
 
 class UserRepository():
 

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from werkzeug.exceptions import NotFound, BadRequest
-from scheduling import db
-from scheduling.meetingroom.repository import MeetingRoomRepository
-from scheduling.meetingroom.models import MeetingRoom
+from schedulingsystem import db
+from schedulingsystem.meetingroom.repository import MeetingRoomRepository
+from schedulingsystem.meetingroom.models import MeetingRoom
 
 class MeetingRoomService():
 

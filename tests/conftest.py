@@ -4,11 +4,11 @@ myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
 import pytest
-from scheduling import create_app, db
+from schedulingsystem import create_app, db
 from config import ConfigTest
 
-from scheduling.user.models import User
-from scheduling.meetingroom.models import MeetingRoom
+from schedulingsystem.user.models import User
+from schedulingsystem.meetingroom.models import MeetingRoom
 
 @pytest.fixture(scope='module')
 def test_client():

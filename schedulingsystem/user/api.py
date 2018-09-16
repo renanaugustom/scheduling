@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask_restful import Resource, reqparse, marshal_with, fields
-from scheduling.user.service import UserService
+from schedulingsystem.user.service import UserService
 
 post_put_parser = reqparse.RequestParser()
 post_put_parser.add_argument('username', required=True, help='Usuário inválido')

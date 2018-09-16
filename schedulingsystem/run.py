@@ -1,4 +1,4 @@
-from scheduling import create_app
+from schedulingsystem import create_app
 
 app = create_app()
 

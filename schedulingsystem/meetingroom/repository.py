@@ -1,4 +1,4 @@
-from scheduling.meetingroom.models import MeetingRoom
+from schedulingsystem.meetingroom.models import MeetingRoom
 
 class MeetingRoomRepository():
 

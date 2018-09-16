@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from werkzeug.exceptions import NotFound, BadRequest
-from scheduling import db
-from scheduling.user.repository import UserRepository
-from scheduling.user.models import User
+from schedulingsystem import db
+from schedulingsystem.user.repository import UserRepository
+from schedulingsystem.user.models import User
 
 class UserService():
 
