@@ -26,13 +26,13 @@ def create_app(config_class=Config):
     from schedulingsystem import models
     from schedulingsystem.meetingroom.api import MeetingRoomItemApi, MeetingRoomListApi
     from schedulingsystem.user.api import UserItemApi, UserListApi
-    from schedulingsystem.scheduling.api import SchedulingListApi
+    from schedulingsystem.scheduling.api import SchedulingListApi, SchedulingItemApi
 
     api.add_resource(MeetingRoomListApi, '/meetingroom')
     api.add_resource(MeetingRoomItemApi, '/meetingroom/<int:id>')
     api.add_resource(UserListApi, '/user')
     api.add_resource(UserItemApi, '/user/<int:id>')
     api.add_resource(SchedulingListApi, '/scheduling')
+    api.add_resource(SchedulingItemApi, '/scheduling/<int:id>')
     
-
     return app

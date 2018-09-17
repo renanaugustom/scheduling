@@ -24,7 +24,7 @@ class UserService:
 
     def edit(self, id, user):
         if user is None:
-            raise BadRequest("Dados do usuário inválidos")
+            raise SchedulingException("Dados do usuário inválidos")
 
         edited_user = self.get_by_id(id)
         edited_user.username = user.username

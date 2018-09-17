@@ -9,7 +9,9 @@ scheduling_fields = {
     "initial_date": fields.DateTime,
     "final_date": fields.DateTime,
     "user": fields.String,
-    "meetingroom": fields.String
+    "user_id": fields.Integer,
+    "meetingroom": fields.String,
+    "meeting_room_id": fields.Integer,
 }
 
 post_put_parser = reqparse.RequestParser()
@@ -24,6 +26,21 @@ post_put_parser.add_argument(
     'meeting_room_id', type=int, required=True, help='Sala de reunião inválida')
 post_put_parser.add_argument(
     'user_id', type=int, required=True, help='Usuário inválido')
+
+class SchedulingItemApi(Resource):
+
+    @marshal_with(scheduling_fields)
+    def get(self, id):
+        return SchedulingService().get_by_id(id)
+
+    def put(self, id):
+        scheduling = post_put_parser.parse_args()
+        SchedulingService().edit(id, scheduling)
+        return 'Agendamento alterado com sucessso'
+
+    def delete(self, id):
+        SchedulingService().delete(id)
+        return 'Agendamento excluído com sucesso'
 
 class SchedulingListApi(Resource):
 
