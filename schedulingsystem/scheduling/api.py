@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from flask_restful import Resource, reqparse, marshal_with, fields
-from schedulingsystem.scheduling.service import SchedulingService
+import schedulingsystem.scheduling.service as scheduling_service
 
 scheduling_fields = {
     "id": fields.Integer,
@@ -31,25 +31,25 @@ class SchedulingItemApi(Resource):
 
     @marshal_with(scheduling_fields)
     def get(self, id):
-        return SchedulingService().get_by_id(id)
+        return scheduling_service.get_by_id(id)
 
     def put(self, id):
         scheduling = post_put_parser.parse_args()
-        SchedulingService().edit(id, scheduling)
+        scheduling_service.edit(id, scheduling)
         return 'Agendamento alterado com sucessso'
 
     def delete(self, id):
-        SchedulingService().delete(id)
+        scheduling_service.delete(id)
         return 'Agendamento excluído com sucesso'
 
 class SchedulingListApi(Resource):
 
     @marshal_with(scheduling_fields)
     def get(self):
-        return SchedulingService().get_all()
+        return scheduling_service.get_all()
 
     def post(self):
         scheduling = post_put_parser.parse_args()
-        SchedulingService().create(scheduling.title, scheduling.initial_date,
+        scheduling_service.create(scheduling.title, scheduling.initial_date,
                                    scheduling.final_date, scheduling.meeting_room_id, scheduling.user_id)
         return 'Agendamento criado com sucesso'
