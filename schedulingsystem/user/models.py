@@ -6,9 +6,10 @@ class User(db.Model):
     username = db.Column(db.String(40), nullable=False, unique=True)
     name = db.Column(db.String(100), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    schedulings = db.relationship('Scheduling', backref='user', lazy=True)
 
     def __repr__(self):
-        return f"Usuário - '{self.username}'"
+        return self.username
 
     def __init__(self, username, name):
         self.username = username

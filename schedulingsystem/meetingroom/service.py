@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from werkzeug.exceptions import NotFound, BadRequest
 from schedulingsystem import db
+from schedulingsystem.errors.schedulingexception import SchedulingException
 from schedulingsystem.meetingroom.repository import MeetingRoomRepository
 from schedulingsystem.meetingroom.models import MeetingRoom
 
-class MeetingRoomService():
+class MeetingRoomService:
 
     def get_by_id(self, id):
         meeting_room = MeetingRoomRepository().get_by_id(id)
         if not meeting_room:
-            raise NotFound('Sala de reunião não encontrada.')
+            raise SchedulingException('Sala de reunião não encontrada.', 404)
         
         return meeting_room
 
@@ -26,7 +26,7 @@ class MeetingRoomService():
 
     def edit(self, id, meeting_room):
         if meeting_room is None:
-            raise BadRequest("Dados da sala de reunião inválidos")
+            raise SchedulingException("Dados da sala de reunião inválidos")
 
         edited_meeting_room = self.get_by_id(id)
         edited_meeting_room.name = meeting_room.name
@@ -42,13 +42,13 @@ class MeetingRoomService():
     
     def validate(self, meeting_room):
         if not meeting_room.name or len(meeting_room.name) > 100:
-            raise BadRequest('Nome da sala de reunião inválido. Não deve ser vazio, e deve conter no máximo 80 caracteres.')
+            raise SchedulingException('Nome da sala de reunião inválido. Não deve ser vazio, e deve conter no máximo 100 caracteres.')
 
         if meeting_room.description and len(meeting_room.description) > 255:
-            raise BadRequest('Descrição da sala de reunião deve conter no máximo 255 caracteres.')
+            raise SchedulingException('Descrição da sala de reunião deve conter no máximo 255 caracteres.')
 
         if self.exists_same_name(meeting_room):
-            raise BadRequest('Já existe uma sala de reunião com esse nome.')
+            raise SchedulingException('Já existe uma sala de reunião com esse nome.')
 
     def exists_same_name(self, meeting_room):
         existing_meeting_room = MeetingRoomRepository().get_by_name(meeting_room.name)

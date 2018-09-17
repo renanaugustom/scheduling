@@ -7,6 +7,7 @@ post_put_parser.add_argument('name', required=True, help='Nome da sala de reuni√
 post_put_parser.add_argument('description')
 
 meeting_room_fields = {
+    "id": fields.Integer,
     "name": fields.String,
     "description": fields.String
 }

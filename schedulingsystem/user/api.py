@@ -3,13 +3,17 @@ from flask_restful import Resource, reqparse, marshal_with, fields
 from schedulingsystem.user.service import UserService
 
 post_put_parser = reqparse.RequestParser()
-post_put_parser.add_argument('username', required=True, help='Usuário inválido')
-post_put_parser.add_argument('name', required=True, help='Nome do usuário inválido')
+post_put_parser.add_argument(
+    'username', required=True, help='Usuário inválido')
+post_put_parser.add_argument(
+    'name', required=True, help='Nome do usuário inválido')
 
 user_fields = {
+    "id": fields.Integer,
     "username": fields.String,
     "name": fields.String
 }
+
 
 class UserItemApi(Resource):
 
@@ -25,6 +29,7 @@ class UserItemApi(Resource):
     def delete(self, id):
         UserService().delete(id)
         return 'Usuário excluído com sucesso'
+
 
 class UserListApi(Resource):
     @marshal_with(user_fields)

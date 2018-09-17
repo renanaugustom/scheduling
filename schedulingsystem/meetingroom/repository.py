@@ -1,6 +1,6 @@
 from schedulingsystem.meetingroom.models import MeetingRoom
 
-class MeetingRoomRepository():
+class MeetingRoomRepository:
 
     def get_by_id(self, id):
         return MeetingRoom.query.filter_by(id = int(id)).first()
