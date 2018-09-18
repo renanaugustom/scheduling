@@ -43,9 +43,8 @@ pip install -r requirements.txt
 Na primeira vez que for inicializar a aplicação, é necessário setar as variáveis de ambiente do FLASK e criar o banco de dados.
 
 Navegue até a pasta /scheduling/schedulingsystem e execute os comandos:
-
-
-
+  
+<br/>  
 Configuração das variáveis de ambiente:
 
 - Linux:
@@ -58,8 +57,8 @@ export FLASK_APP='run.py'
 set FLASK_APP='run.py'
 ```
 
-
-
+<br/>  
+<br/>    
 Criando e atualizando a estrutura do banco de dados
 
 ```
