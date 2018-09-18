@@ -58,7 +58,6 @@ set FLASK_APP='run.py'
 ```
 
 <br/>  
-<br/>    
 Criando e atualizando a estrutura do banco de dados
 
 ```
