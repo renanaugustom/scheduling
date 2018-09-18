@@ -10,8 +10,6 @@ De acordo com seu sistema operacional, você pode baixar em:
   http://www.python.org/getit/
 
 
-Quick start
-
 Após clonar o projeto, navegue até a pasta /scheduling e crie um diretório virtual com o seguinte comando:
 
 ```
@@ -20,13 +18,13 @@ python3 -m venv venv
 
 Completado a etapa acima, ative o ambiente virtual: 
 
-Linux
+- Linux
 
 ```
 source venv/bin/activate
 ```
 
-Windows
+- Windows
 
 Execute o bat activate que se encontra na pasta:
 
@@ -43,21 +41,26 @@ pip install -r requirements.txt
 ### Inicializar a aplicação
 
 Na primeira vez que for inicializar a aplicação, é necessário setar as variáveis de ambiente do FLASK e criar o banco de dados.
+
 Navegue até a pasta /scheduling/schedulingsystem e execute os comandos:
 
-- Configuração das variáveis de ambiente:
 
-Linux:
+
+Configuração das variáveis de ambiente:
+
+- Linux:
 ```
 export FLASK_APP='run.py'
 ```
 
-Windows:
+- Windows:
 ```
 set FLASK_APP='run.py'
 ```
 
-- Criando e atualizando a estrutura do banco de dados
+
+
+Criando e atualizando a estrutura do banco de dados
 
 ```
 flask db init
