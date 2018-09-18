@@ -55,7 +55,12 @@ class SchedulingListApi(Resource):
 
     @marshal_with(scheduling_fields)
     def get(self):
-        filters = get_parser.parse_args()
+        params = get_parser.parse_args()
+        filters = {
+            'initial_date': params.initial_date,
+            'final_date': params.final_date,
+            'meetingroomid': params.meetingroomid
+        }
         return scheduling_service.get_all(filters)
 
     def post(self):

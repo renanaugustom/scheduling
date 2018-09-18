@@ -24,8 +24,12 @@ def create(title, initial_date, final_date, id_meeting_room, id_user):
                             final_date, id_meeting_room, id_user)
     validate(scheduling)
 
-    existing_scheduling = scheduling_rep.get_by_meeting_room_and_period(
-        scheduling.meeting_room_id, scheduling.initial_date, scheduling.final_date).first()
+    filters = {
+        'meetingroomid': scheduling.meeting_room_id, 
+        'initial_date': scheduling.initial_date, 
+        'final_date': scheduling.final_date
+    }
+    existing_scheduling = scheduling_rep.get_all(filters).first()
 
     if existing_scheduling is not None:
         raise SchedulingException(
@@ -38,8 +42,12 @@ def edit(id, scheduling):
     if scheduling is None:
         raise SchedulingException("Dados do agendamento inválidos")
 
-    existing_scheduling = scheduling_rep.get_by_meeting_room_and_period(
-        scheduling.meeting_room_id, scheduling.initial_date, scheduling.final_date).first()
+    filters = {
+        'meetingroomid': scheduling.meeting_room_id, 
+        'initial_date': scheduling.initial_date, 
+        'final_date': scheduling.final_date
+    }
+    existing_scheduling = scheduling_rep.get_all(filters).first()
 
     if existing_scheduling is not None and existing_scheduling.id != id:
         raise SchedulingException(
