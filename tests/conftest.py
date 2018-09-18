@@ -43,8 +43,11 @@ def init_database():
         final_date=datetime(2018, 9, 1, 12, 0), user_id=1, meeting_room_id=1 )
     scheduling2 = Scheduling(title='Python Brasil', initial_date=datetime(2018, 9, 2, 8, 0), 
         final_date=datetime(2018, 9, 2, 10, 0), user_id=2, meeting_room_id=2 )
+    scheduling3 = Scheduling(title='Python para zumbis', initial_date=datetime(2018, 9, 2, 10, 1), 
+        final_date=datetime(2018, 9, 2, 12, 0), user_id=2, meeting_room_id=2 )
     db.session.add(scheduling1)
     db.session.add(scheduling2)
+    db.session.add(scheduling3)
 
     db.session.commit()
 

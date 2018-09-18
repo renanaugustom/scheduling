@@ -19,17 +19,18 @@ def test_get_by_id_notfound(test_client, init_database):
 
 def test_get_all_no_parameters(test_client, init_database):
     schedules = repository.get_all(None)
-    assert len(schedules) == 2
+    assert len(schedules) == 3
     assert schedules[0].title == 'PyTalks'
     assert schedules[1].title == 'Python Brasil'
+    assert schedules[2].title == 'Python para zumbis'    
 
 def test_get_all_with_param_meetingroomid(test_client, init_database):
     filters = {
-        'meetingroomid': 2
+        'meetingroomid': 1
     }
     schedules = repository.get_all(filters)
     assert len(schedules) == 1
-    assert schedules[0].title == 'Python Brasil'
+    assert schedules[0].title == 'PyTalks'
 
 def test_get_all_with_params_dates(test_client, init_database):
     filters = {
@@ -47,5 +48,5 @@ def test_get_all_with_params_dates_and_meetingroomid(test_client, init_database)
         'meetingroomid': 2
     }
     schedules = repository.get_all(filters)
-    assert len(schedules) == 1
+    assert len(schedules) == 2
     assert schedules[0].title == 'Python Brasil'

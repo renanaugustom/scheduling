@@ -19,5 +19,5 @@ def get_all(filters):
                 and_(Scheduling.initial_date.between(filters['initial_date'], filters['final_date'])),
                 and_(Scheduling.final_date.between(filters['initial_date'], filters['final_date']))
             ))
-    teste = str(query)
+            
     return query.all()

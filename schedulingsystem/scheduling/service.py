@@ -29,9 +29,9 @@ def create(title, initial_date, final_date, id_meeting_room, id_user):
         'initial_date': scheduling.initial_date, 
         'final_date': scheduling.final_date
     }
-    existing_scheduling = scheduling_rep.get_all(filters).first()
+    existing_schedules = scheduling_rep.get_all(filters)
 
-    if existing_scheduling is not None:
+    if len(existing_schedules) > 0:
         raise SchedulingException(
             "Já existe agendamento para a sala e o horário desejado.")
 
@@ -42,25 +42,27 @@ def edit(id, scheduling):
     if scheduling is None:
         raise SchedulingException("Dados do agendamento inválidos")
 
-    filters = {
-        'meetingroomid': scheduling.meeting_room_id, 
-        'initial_date': scheduling.initial_date, 
-        'final_date': scheduling.final_date
-    }
-    existing_scheduling = scheduling_rep.get_all(filters).first()
-
-    if existing_scheduling is not None and existing_scheduling.id != id:
-        raise SchedulingException(
-            "Já existe agendamento para a sala e o horário desejado.")
-
     edited_scheduling = get_by_id(id)
     edited_scheduling.title = scheduling.title
     edited_scheduling.initial_date = scheduling.initial_date
     edited_scheduling.final_date = scheduling.final_date
-    edited_heduling.meeting_room_id = scheduling.meeting_room_id
+    edited_scheduling.meeting_room_id = scheduling.meeting_room_id
     edited_scheduling.user_id = scheduling.user_id
 
     validate(edited_scheduling)
+    
+    filters = {
+        'meetingroomid': edited_scheduling.meeting_room_id, 
+        'initial_date': edited_scheduling.initial_date, 
+        'final_date': edited_scheduling.final_date
+    }
+
+    existing_schedules = scheduling_rep.get_all(filters)
+
+    if len([schedule for schedule in existing_schedules if schedule.id != id]):
+        raise SchedulingException(
+            "Já existe agendamento para a sala e o horário desejado.")
+    
     db.session.commit()
 
 def delete(id):
