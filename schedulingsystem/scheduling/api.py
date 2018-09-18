@@ -18,7 +18,7 @@ post_put_parser = reqparse.RequestParser()
 post_put_parser.add_argument(
     'title', required=True, help='Título do agendamento')
 post_put_parser.add_argument('initial_date', type=lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S'),
-    required=True, help="Data inicial do agendamento inválida")
+                             required=True, help="Data inicial do agendamento inválida")
 post_put_parser.add_argument(
     'final_date', type=lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S'),
     required=True, help="Data final do agendamento inválida")
@@ -26,6 +26,14 @@ post_put_parser.add_argument(
     'meeting_room_id', type=int, required=True, help='Sala de reunião inválida')
 post_put_parser.add_argument(
     'user_id', type=int, required=True, help='Usuário inválido')
+
+get_parser = reqparse.RequestParser()
+get_parser.add_argument('meetingroomid', type=int, location='args')
+get_parser.add_argument('initial_date', type=lambda x: datetime.strptime(
+    x, '%Y-%m-%dT%H:%M:%S'), location='args')
+get_parser.add_argument('final_date', type=lambda x: datetime.strptime(
+    x, '%Y-%m-%dT%H:%M:%S'), location='args')
+
 
 class SchedulingItemApi(Resource):
 
@@ -42,14 +50,16 @@ class SchedulingItemApi(Resource):
         scheduling_service.delete(id)
         return 'Agendamento excluído com sucesso'
 
+
 class SchedulingListApi(Resource):
 
     @marshal_with(scheduling_fields)
     def get(self):
-        return scheduling_service.get_all()
+        filters = get_parser.parse_args()
+        return scheduling_service.get_all(filters)
 
     def post(self):
         scheduling = post_put_parser.parse_args()
         scheduling_service.create(scheduling.title, scheduling.initial_date,
-                                   scheduling.final_date, scheduling.meeting_room_id, scheduling.user_id)
+                                  scheduling.final_date, scheduling.meeting_room_id, scheduling.user_id)
         return 'Agendamento criado com sucesso'

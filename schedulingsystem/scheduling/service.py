@@ -8,29 +8,23 @@ import schedulingsystem.meetingroom.service as meeting_room_service
 import schedulingsystem.user.service as user_service
 
 
-def get_all():
-    schedules = scheduling_rep.get_all()
+def get_all(filters):
+    schedules = scheduling_rep.get_all(filters)
     return schedules
 
-def get_by_id( id):
+def get_by_id(id):
     scheduling = scheduling_rep.get_by_id(id)
     if not scheduling:
         raise SchedulingException('Agendamento não encontrado.', 404)
 
     return scheduling
 
-def get_by_meeting_room_id(meeting_room_id):
-    return scheduling_rep.get_by_meeting_room_id(meeting_room_id)
-
-def get_by_period(initial_date, final_date):
-    return scheduling_rep.get_by_period(initial_date, final_date)
-
 def create(title, initial_date, final_date, id_meeting_room, id_user):
     scheduling = Scheduling(title, initial_date,
                             final_date, id_meeting_room, id_user)
     validate(scheduling)
 
-    existing_scheduling = scheduling_rep.get_existing_by_meeting_room_and_period(
+    existing_scheduling = scheduling_rep.get_by_meeting_room_and_period(
         scheduling.meeting_room_id, scheduling.initial_date, scheduling.final_date).first()
 
     if existing_scheduling is not None:
@@ -44,7 +38,7 @@ def edit(id, scheduling):
     if scheduling is None:
         raise SchedulingException("Dados do agendamento inválidos")
 
-    existing_scheduling = scheduling_rep.get_existing_by_meeting_room_and_period(
+    existing_scheduling = scheduling_rep.get_by_meeting_room_and_period(
         scheduling.meeting_room_id, scheduling.initial_date, scheduling.final_date).first()
 
     if existing_scheduling is not None and existing_scheduling.id != id:
