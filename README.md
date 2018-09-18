@@ -2,7 +2,7 @@
 
 Sistema de Agendamento de Salas desenvolvido com FLASK.
 
-### Instalação
+## Instalação
 
 Você precisará instalar o Python 3.6 ou posterior para rodar esse projeto. 
 De acordo com seu sistema operacional, você pode baixar em: 
@@ -38,7 +38,7 @@ Para instalar as dependências, volte até a raiz do projeto e execute o comando
 pip install -r requirements.txt
 ```
 
-### Inicializar a aplicação
+## Inicializar a aplicação
 
 Na primeira vez que for inicializar a aplicação, é necessário setar as variáveis de ambiente do FLASK e criar o banco de dados.
 
