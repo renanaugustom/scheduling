@@ -34,6 +34,16 @@ def test_create_scheduling_same_room_invalid_period(test_client, init_database):
         service.create('Title', datetime(2018, 9, 1, 10, 0), datetime(2018, 9, 1, 11, 0), 1, 1)
     assert e_info.value.message == 'Já existe agendamento para o horário desejado.'
 
+def test_create_scheduling_error_meeting_room_not_found():
+    with pytest.raises(SchedulingException) as e_info:
+        service.create('Title', datetime(2018, 9, 1, 10, 0), datetime(2018, 9, 1, 11, 0), 200, 1)
+    assert e_info.value.message == 'Sala de reunião não encontrada'
+
+def test_create_scheduling_error_user_not_found():
+    with pytest.raises(SchedulingException) as e_info:
+        service.create('Title', datetime(2018, 9, 1, 10, 0), datetime(2018, 9, 1, 11, 0), 2, 1000)
+    assert e_info.value.message == 'Usuário não encontrado'
+    
 def test_create_scheduling_sucess():
     service.create('Title', datetime(2018, 9, 1, 10, 0), datetime(2018, 9, 1, 11, 0), 2, 1)
     schedules = service.get_all(None)

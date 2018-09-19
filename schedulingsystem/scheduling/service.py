@@ -98,4 +98,10 @@ def validate(scheduling):
             'Data inicial do agendamento não pode ser maior que a data final do agendamento')
 
     meeting_room = meeting_room_repository.get_by_id(scheduling.meeting_room_id)
+    if (meeting_room is None):
+        raise SchedulingException('Sala de reunião não encontrada')
+
     user = user_repository.get_by_id(scheduling.user_id)
+    if (user is None):
+        raise SchedulingException('Usuário não encontrado')
+
