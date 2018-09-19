@@ -45,7 +45,7 @@ Na primeira vez que for inicializar a aplicação, é necessário setar as vari�
 Navegue até a pasta /scheduling/schedulingsystem e execute os comandos:
   
 <br/>  
-Configuração das variáveis de ambiente:
+Configuração das variáveis de ambiente: 
 
 - Linux:
 ```
@@ -70,6 +70,14 @@ Para finalizar, inicialize a aplicação com o comando
 
 ```
 flask run
+```
+
+## Listar as API's 
+
+É possível listar as API's implementadas com seus respectivos endpoints através do comando
+
+```
+flask routes
 ```
 
 ## Executando os testes
