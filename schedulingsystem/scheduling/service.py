@@ -36,7 +36,7 @@ def create(title, initial_date, final_date, id_meeting_room, id_user):
 
     if len(existing_schedules) > 0:
         raise SchedulingException(
-            "Já existe agendamento para a sala e o horário desejado.")
+            "Já existe agendamento para o horário desejado.")
 
     db.session.add(scheduling)
     db.session.commit()
@@ -65,7 +65,7 @@ def edit(id, scheduling):
 
     if len([schedule for schedule in existing_schedules if schedule.id != id]):
         raise SchedulingException(
-            "Já existe agendamento para a sala e o horário desejado.")
+            "Já existe agendamento para o horário desejado.")
     
     db.session.commit()
 

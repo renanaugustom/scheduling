@@ -32,7 +32,7 @@ def test_create_invalid_period(test_client, init_database):
 def test_create_scheduling_same_room_invalid_period(test_client, init_database):
     with pytest.raises(SchedulingException) as e_info:
         service.create('Title', datetime(2018, 9, 1, 10, 0), datetime(2018, 9, 1, 11, 0), 1, 1)
-    assert e_info.value.message == 'Já existe agendamento para a sala e o horário desejado.'
+    assert e_info.value.message == 'Já existe agendamento para o horário desejado.'
 
 def test_create_scheduling_sucess():
     service.create('Title', datetime(2018, 9, 1, 10, 0), datetime(2018, 9, 1, 11, 0), 2, 1)
@@ -43,7 +43,7 @@ def test_edit_scheduling_same_room_invalid_period(test_client, init_database):
     with pytest.raises(SchedulingException) as e_info:
         scheduling = Scheduling('Title', datetime(2018, 9, 2, 8, 0), datetime(2018, 9, 2, 12, 0), 2, 2)
         service.edit(3, scheduling)
-    assert e_info.value.message == 'Já existe agendamento para a sala e o horário desejado.'
+    assert e_info.value.message == 'Já existe agendamento para o horário desejado.'
 
 def test_edit_success(test_client, init_database):
     scheduling = Scheduling('New Title', datetime(2018, 9, 2, 10, 30), datetime(2018, 9, 2, 12, 0), 2, 2)
@@ -52,6 +52,12 @@ def test_edit_success(test_client, init_database):
     edited_scheduling = service.get_by_id(3)
     assert edited_scheduling.title == 'New Title'
     assert edited_scheduling.initial_date == datetime(2018, 9, 2, 10, 30)
+
+def test_edit_not_found(test_client, init_database):
+    with pytest.raises(SchedulingException) as e_info:
+        scheduling = Scheduling('New Title', datetime(2018, 9, 2, 10, 30), datetime(2018, 9, 2, 12, 0), 2, 2)
+        service.edit(20, scheduling)
+    assert e_info.value.message == 'Agendamento não encontrado.'
 
 def test_delete_success(test_client, init_database):
     schedules = service.get_all(None)
@@ -67,3 +73,15 @@ def test_delete_not_foud(test_client, init_database):
     with pytest.raises(SchedulingException) as e_info:
         service.delete(1000)
     assert e_info.value.message == 'Agendamento não encontrado.'
+
+def test_get_all_without_parameters(test_client, init_database):
+    schedules = service.get_all(None)
+    assert len(schedules) == 3
+
+def test_get_all_with_params_date(test_client, init_database):
+    filters = {
+        'initial_date': datetime(2018, 9, 1, 10, 0),
+        'final_date': datetime(2018, 9, 1, 12, 0)
+    }
+    schedules = service.get_all(filters)
+    assert len(schedules) == 1
