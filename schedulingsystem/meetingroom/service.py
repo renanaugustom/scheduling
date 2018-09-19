@@ -4,6 +4,7 @@ from schedulingsystem import db
 from schedulingsystem.errors.schedulingexception import SchedulingException
 from schedulingsystem.meetingroom.models import MeetingRoom
 import schedulingsystem.meetingroom.repository as meeting_room_rep
+import schedulingsystem.scheduling.repository as scheduling_repository
 
 
 def get_by_id(id):
@@ -45,9 +46,20 @@ def edit(id, meeting_room):
     db.session.commit()
 
 def delete(id):
-    meeting_room = get_by_id(id)
-    db.session.delete(meeting_room)
-    db.session.commit()
+    if can_be_deleted(id):
+        meeting_room = get_by_id(id)
+        db.session.delete(meeting_room)
+        db.session.commit()
+    else:
+        raise SchedulingException('Sala de reunião não pode ser deletada pois possuí agendamentos.')
+
+def can_be_deleted(id):
+    exists_scheduling = scheduling_repository.get_by_meeting_room_id(id)
+
+    if len(exists_scheduling) > 0:
+        return False
+
+    return True    
 
 def validate(meeting_room):
     if not meeting_room.name or len(meeting_room.name) > 100:

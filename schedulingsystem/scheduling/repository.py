@@ -24,3 +24,6 @@ def get_all(filters):
 
 def get_by_user_id(user_id):
     return Scheduling.query.filter_by(user_id=user_id).all()
+
+def get_by_meeting_room_id(meeting_room_id):
+    return Scheduling.query.filter_by(meeting_room_id=meeting_room_id).all()

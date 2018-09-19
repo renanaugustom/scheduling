@@ -54,3 +54,7 @@ def test_get_all_with_params_dates_and_meetingroomid(test_client, init_database)
 def test_get_by_user_id(test_client, init_database):
     schedules = repository.get_by_user_id(2)
     assert len(schedules) == 2
+
+def test_get_by_meeting_room_id(test_client, init_database):
+    schedules = repository.get_by_meeting_room_id(1)
+    assert len(schedules) == 1
