@@ -21,3 +21,6 @@ def get_all(filters):
             ))
             
     return query.all()
+
+def get_by_user_id(user_id):
+    return Scheduling.query.filter_by(user_id=user_id).all()

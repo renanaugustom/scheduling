@@ -4,9 +4,8 @@ from schedulingsystem import db
 from schedulingsystem.errors.schedulingexception import SchedulingException
 from schedulingsystem.scheduling.models import Scheduling
 import schedulingsystem.scheduling.repository as scheduling_rep
-import schedulingsystem.meetingroom.service as meeting_room_service
-import schedulingsystem.user.service as user_service
-
+import schedulingsystem.meetingroom.repository as meeting_room_repository
+import schedulingsystem.user.repository as user_repository
 
 def get_all(filters):
     schedules = scheduling_rep.get_all(filters)
@@ -18,6 +17,10 @@ def get_by_id(id):
         raise SchedulingException('Agendamento não encontrado.', 404)
 
     return scheduling
+
+def get_by_user_id(user_id):
+    schedules = scheduling_rep.get_by_user_id(user_id)
+    return schedules
 
 def create(title, initial_date, final_date, id_meeting_room, id_user):
     scheduling = Scheduling(title, initial_date,
@@ -39,18 +42,19 @@ def create(title, initial_date, final_date, id_meeting_room, id_user):
     db.session.commit()
 
 def edit(id, scheduling):
+    edited_scheduling = get_by_id(id)
+
     if scheduling is None:
         raise SchedulingException("Dados do agendamento inválidos")
 
-    edited_scheduling = get_by_id(id)
+    validate(scheduling)
+
     edited_scheduling.title = scheduling.title
     edited_scheduling.initial_date = scheduling.initial_date
     edited_scheduling.final_date = scheduling.final_date
     edited_scheduling.meeting_room_id = scheduling.meeting_room_id
     edited_scheduling.user_id = scheduling.user_id
 
-    validate(edited_scheduling)
-    
     filters = {
         'meetingroomid': edited_scheduling.meeting_room_id, 
         'initial_date': edited_scheduling.initial_date, 
@@ -93,5 +97,5 @@ def validate(scheduling):
         raise SchedulingException(
             'Data inicial do agendamento não pode ser maior que a data final do agendamento')
 
-    meeting_room = meeting_room_service.get_by_id(scheduling.meeting_room_id)
-    user = user_service.get_by_id(scheduling.user_id)
+    meeting_room = meeting_room_repository.get_by_id(scheduling.meeting_room_id)
+    user = user_repository.get_by_id(scheduling.user_id)

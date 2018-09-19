@@ -50,3 +50,7 @@ def test_get_all_with_params_dates_and_meetingroomid(test_client, init_database)
     schedules = repository.get_all(filters)
     assert len(schedules) == 2
     assert schedules[0].title == 'Python Brasil'
+
+def test_get_by_user_id(test_client, init_database):
+    schedules = repository.get_by_user_id(2)
+    assert len(schedules) == 2
